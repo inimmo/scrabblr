@@ -1,0 +1,6 @@
+{
+    "require": {
+        "doctrine/dbal": "^2.5",
+        "ext-json": "*"
+    }
+}
