@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-(new DB('mysql://root:codilink@127.0.0.1:3309/scrabblr'));
+(new DB('mysql://@127.0.0.1:3309/scrabblr'));
 
 class DB {
     private static $conn;
