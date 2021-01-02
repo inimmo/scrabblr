@@ -2,15 +2,23 @@
 require_once __DIR__ . '/autoload.php';
 
 $playerNames = array_column(iterator_to_array(query('Select name From players')), 'name');
+$highestSet = scalar('Select max(`set`) as highest From matches');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $turns = array_filter(array_map('trim', explode("\n", $_POST['scores'])));
 
+    if ($_POST['match_date'] && $_POST['match_time']) {
+        $matchDate = "{$_POST['match_date']} {$_POST['match_time']}";
+    } else {
+        $matchDate = null;
+    }
+
     query(
-        "Insert Into matches (match_date, first_player) Values (:match_date, :first_player)",
+        "Insert Into matches (match_date, first_player, `set`) Values (:match_date, :first_player, :set)",
         [
-            'match_date' => $_POST['match_date'] ?? null,
+            'match_date' => $matchDate,
             'first_player' => $_POST['first_player'],
+            'set' => $_POST['set'],
         ]
     );
 
@@ -70,6 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Match Date
                 <input type="date" name="match_date" />
                 <input type="time" name="match_time" />
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Set
+                <input name="set" type="number" value="<?=$highestSet;?>" />
             </label>
         </div>
         <div class="form-group">

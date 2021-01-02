@@ -24,6 +24,11 @@ function query($sql, $params = []) {
     return $stmt->getIterator();
 }
 
+function scalar($sql, $params = []) {
+    $result = iterator_to_array(query($sql, $params));
+    return $result[0][array_keys($result[0])[0]];
+}
+
 function lastId() {
     return DB::conn()->lastInsertId();
 }
