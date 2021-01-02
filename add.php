@@ -29,22 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         list ($first, $second) = preg_split('/[ ,]/', $turn);
 
         $sql = "
-          Insert Into scores (match_id, turn, player_name, score)
-          Values (:match_id, :turn, :player_name, :score)
+          Insert Into scores (match_id, turn, player_name, score, bonus)
+          Values (:match_id, :turn, :player_name, :score, :bonus)
         ";
 
         query($sql, [
             'match_id' => $matchId,
             'turn' => $turnNumber,
             'player_name' => $_POST['first_player'],
-            'score' => $first,
+            'score' => (int) $first,
+            'bonus' => strpos($first, '*') !== false ? 50 : 0,
         ]);
 
         query($sql, [
             'match_id' => $matchId,
             'turn' => $turnNumber,
             'player_name' => $playerNames[(array_search($_POST['first_player'], $playerNames) + 1) % 2],
-            'score' => $second,
+            'score' => (int) $second,
+            'bonus' => strpos($second, '*') !== false ? 50 : 0,
         ]);
 
         $turnNumber++;
