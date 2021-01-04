@@ -89,6 +89,7 @@ foreach ($crossTab as $row) {
             <td><?= $winners['Iain']['Iain']; ?></td>
         </tr>
     </table>
+    <!--
     <h1>View Match</h1>
     <form action="./match" method="get">
         <label>
@@ -100,6 +101,7 @@ foreach ($crossTab as $row) {
         </label>
         <input type="submit" value="Go" />
     </form>
+    -->
 
     <h1>Actions</h1>
     <ul>
