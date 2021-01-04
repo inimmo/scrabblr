@@ -18,6 +18,14 @@ $headlines = [
         'line' => 'Average Total: {avg}',
         'query' => query('select avg(winner_score + loser_score) as avg from winners'),
     ],
+    'busiest_day' => [
+        'line' => 'Most games in a day: {count} ({date})',
+        'query' => query('select date(match_date) as `date`, count(*) as count from matches m where match_date is not null group by 1 order by 2 desc limit 1'),
+    ],
+    'best_score' => [
+        'line' => 'Best score: {score} ({player_name})',
+        'query' => query('select player_name, score from scores order by 2 desc limit 1'),
+    ]
 ];
 
 $winners = [];
@@ -36,11 +44,14 @@ foreach ($crossTab as $row) {
 <body>
     <!-- <img src="./static/tile.jpg" style="position: absolute; right: 20%; top: 1em;" alt="What a lovely tile" /> -->
     <h1>Summary</h1>
-    <?php foreach ($headlines as $headline): ?>
-    <p><?=
-        preg_replace_callback('/{([^}]+?)}/', function ($match) use ($headline) {
-            return iterator_to_array($headline['query'])[0][$match[1]];
-        }, $headline['line']);; ?></p>
+    <?php
+        foreach ($headlines as $headline):
+            $results = iterator_to_array($headline['query']);
+    ?>
+        <p><?=
+            preg_replace_callback('/{([^}]+?)}/', function ($match) use ($results) {
+                return $results[0][$match[1]];
+            }, $headline['line']);; ?></p>
     <?php endforeach; ?>
     <table>
         <tr>
