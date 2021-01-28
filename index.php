@@ -25,6 +25,20 @@ $headlines = [
     'best_score' => [
         'line' => 'Best score: {score} ({player_name})',
         'query' => query('select player_name, score from scores order by 2 desc limit 1'),
+    ],
+    'longest_streak' => [
+        'line' => 'Longest winning streak: {streak} ({winner})',
+        'query' => query(<<<SQL
+   select w.match_id,
+          w.winner,
+          prev.match_id,
+          @streak := (case when prev.winner = w.winner then @streak + 1 else 1 end) as streak
+     from winners w
+left join winners prev on w.match_id = prev.match_id + 1
+ order by 4 desc
+    limit 1
+SQL
+        )
     ]
 ];
 
