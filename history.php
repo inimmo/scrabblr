@@ -67,6 +67,21 @@ $queries['total'] = <<<SQL
 order by 1
 SQL;
 
+$queries['hourly'] = <<<SQL
+  select 'average' as player_name,
+         case
+           when hour(match_date) = 0 then 24
+           else hour(match_date)
+         end as match_id,
+         avg(r.score) as score
+    from matches m
+    join results r on m.id = r.match_id
+   where match_date is not null
+group by 1, 2
+order by 2
+SQL;
+
+
 $results = iterator_to_array(query($queries[$_GET['option'] ?? 'scores']));
 
 if ($min = $_GET['min']) {
