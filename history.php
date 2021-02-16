@@ -68,7 +68,7 @@ order by 1
 SQL;
 
 $queries['hourly'] = <<<SQL
-  select 'average' as player_name,
+  select player_name,
          case
            when hour(match_date) = 0 then 24
            else hour(match_date)
