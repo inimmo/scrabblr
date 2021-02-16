@@ -81,6 +81,26 @@ group by 1, 2
 order by 2
 SQL;
 
+$queries['sevens'] = <<<SQL
+   select 'average' as player_name,
+          datediff(date(m.match_date), (select date(min(match_date)) from matches)) as match_id,
+          count(s.id) as score
+     from matches m
+left join scores s on m.id = s.match_id and s.bonus > 0
+ group by 1, 2
+ order by 2
+SQL;
+
+$queries['margin'] = <<<SQL
+   select 'average' as player_name,
+          match_id,
+          case
+            when w.winner = 'Han' then winner_score - loser_score
+            else loser_score - winner_score
+          end as score
+     from winners w
+order by 2
+SQL;
 
 $results = iterator_to_array(query($queries[$_GET['option'] ?? 'scores']));
 
