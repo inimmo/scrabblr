@@ -32,7 +32,7 @@ $headlines = [
         'query' => query('select date(match_date) as `date`, count(*) as count from matches m where match_date is not null group by 1 order by 2 desc limit 1'),
     ],
     'best_score' => [
-        'line' => 'Best score: {score} ({player_name})',
+        'line' => 'Best turn: {score} ({player_name})',
         'query' => query('select player_name, score from scores order by 2 desc limit 1'),
     ],
     'longest_streak' => [
