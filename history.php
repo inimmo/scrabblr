@@ -55,10 +55,25 @@ group by 1, 2
 order by 1, 2
 SQL;
 
-$queries['optimum'] = <<<SQL
+$queries['best_turns'] = <<<SQL
   select player_name, turn as match_id, max(score) as score
     from scores
 group by 1, 2
+SQL;
+
+$queries['optimum'] = <<<SQL
+with opt as (
+    select player_name, turn, max(score) as score
+      from scores
+  group by 1, 2
+)
+  select o.player_name, o.turn as match_id, sum(opt_a.score) as score
+    from opt o
+    join opt opt_a
+      on o.turn >= opt_a.turn
+     and o.player_name = opt_a.player_name
+group by 1, 2
+order by 1, 2
 SQL;
 
 $queries['total'] = <<<SQL
@@ -89,6 +104,14 @@ $queries['sevens'] = <<<SQL
 left join scores s on m.id = s.match_id and s.bonus > 0
  group by 1, 2
  order by 2
+SQL;
+
+$queries['turn_sevens'] = <<<SQL
+  select player_name, turn as match_id, count(s.id) as score
+    from scores s
+   where bonus > 0
+group by 1, 2
+order by 1, 2
 SQL;
 
 $queries['margin'] = <<<SQL
