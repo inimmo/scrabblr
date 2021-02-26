@@ -76,6 +76,21 @@ group by 1, 2
 order by 1, 2
 SQL;
 
+$queries['pessimum'] = <<<SQL
+with opt as (
+    select player_name, turn, min(score) as score
+      from scores
+  group by 1, 2
+)
+  select o.player_name, o.turn as match_id, sum(opt_a.score) as score
+    from opt o
+    join opt opt_a
+      on o.turn >= opt_a.turn
+     and o.player_name = opt_a.player_name
+group by 1, 2
+order by 1, 2
+SQL;
+
 $queries['total'] = <<<SQL
   select 'average' as player_name, match_id, winner_score + loser_score as score
     from winners
