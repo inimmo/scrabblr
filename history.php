@@ -80,6 +80,14 @@ $queries['pessimum'] = <<<SQL
 with opt as (
     select player_name, turn, min(score) as score
       from scores
+     where exists (
+       select 1
+         from scores sub
+        where sub.match_id = scores.match_id
+          and sub.turn > scores.turn
+          and sub.player_name = scores.player_name
+          and sub.score != 0
+     )
   group by 1, 2
 )
   select o.player_name, o.turn as match_id, sum(opt_a.score) as score
