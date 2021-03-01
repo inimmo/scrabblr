@@ -28,6 +28,10 @@ $headlines = [
         'line' => 'Average Total: {avg}',
         'query' => query('select avg(winner_score + loser_score) as avg from winners'),
     ],
+    'avg_turn' => [
+        'line' => 'Average Turn: {avg}',
+        'query' => query('select avg(score) as avg from scores'),
+    ],
     'busiest_day' => [
         'line' => 'Most games in a day: {count} ({date})',
         'query' => query('select date(match_date) as `date`, count(*) as count from matches m where match_date is not null group by 1 order by 2 desc limit 1'),
