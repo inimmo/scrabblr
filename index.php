@@ -53,7 +53,24 @@ left join winners prev on w.match_id = prev.match_id + 1
     limit 1
 SQL
         )
-    ]
+    ],
+    'unreplied_sevens' => [
+        'line' => 'Most sevens without reply: {streak} ({player_name})',
+        'setup' => query('set @row_number = 0;'),
+        'query' => query(<<<SQL
+with sevens as (
+  select (@row_number:=@row_number + 1) AS id, s.score, s.player_name
+    from scores s
+   where s.bonus > 0
+)
+   select sevens.player_name,
+          @streak := (case when prev.player_name = sevens.player_name then @streak + 1 else 1 end) as streak
+     from sevens
+left join sevens prev on sevens.id = prev.id + 1
+ order by 2 desc
+SQL
+        )
+    ],
 ];
 
 $winners = [];
