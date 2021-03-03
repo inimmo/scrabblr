@@ -13,8 +13,14 @@ $sets = query(<<<SQL
 group by 1
 SQL
 );
-$highestScores = query('select winner, winner_score from winners order by winner_score desc, match_id limit 10');
-
+$highestScores = query(<<<SQL
+  select winner, winner_score, match_date
+    from winners
+    join matches m on winners.match_id = m.id
+order by winner_score desc, match_id
+   limit 10
+SQL
+);
 $headlines = [
     'total' => [
         'line' => 'Matches: {count}',
@@ -154,11 +160,13 @@ foreach ($crossTab as $row) {
         <tr>
             <th>Player</th>
             <th>Score</th>
+            <th>Date</th>
         </tr>
         <?php foreach ($highestScores as $highestScore): ?>
             <tr>
                 <td><?= $highestScore['winner']; ?></td>
                 <td><?= $highestScore['winner_score']; ?></td>
+                <td><?= (new DateTime($highestScore['match_date']))->format('jS F Y, H:i'); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>
