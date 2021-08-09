@@ -13,9 +13,11 @@ $def = $xpath->query("//h1/following-sibling::ul");
 $valid = strpos($header[0]->nodeValue, "is a valid") !== false;
 $defs = $def[0]->childNodes;
 
-$defs = array_map(function ($e) {
-    return $e->nodeValue;
-}, iterator_to_array($defs));
+if (count($defs)) {
+    $defs = array_map(function ($e) {
+        return $e->nodeValue;
+    }, iterator_to_array($defs));
+}
 ?>
 
 <!DOCTYPE html>
