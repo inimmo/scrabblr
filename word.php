@@ -1,5 +1,5 @@
 <?php
-$word = $_GET['word'];
+$word = strtolower($_GET['word']);
 
 $dom = new DOMDocument;
 $src = file_get_contents("compress.zlib://http://1word.ws/{$word}");
