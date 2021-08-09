@@ -43,6 +43,8 @@ if (count($defs)) {
     <body>
     <?php if ($valid): ?>
         <h1>Hooray you are good at Scrabble!</h1>
+    <?php elseif(count($defs)): ?>
+        <h1>"Officially" you are bad at Scrabble, HOWEVER:</h1>
     <?php else: ?>
         <h1>Oh no you are bad at Scrabble!</h1>
     <?php endif; ?>
