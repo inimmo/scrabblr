@@ -64,4 +64,18 @@ if (count($defs)) {
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+    <form id="search">
+        <label>
+            Search
+            <input id="q" type="text" />
+        </label>
+        <input type="submit" />
+    </form>
     </body>
+    <script>
+        document.getElementById('search').onsubmit = function (e) {
+            window.location.href = 'word.php?word=' + document.getElementById('q').value;
+
+            return false;
+        };
+    </script>
