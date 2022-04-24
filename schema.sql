@@ -59,12 +59,13 @@ create or replace view results as
   group by m.id, p.name;
 
 create or replace view summary as
-    select p.name,
-         sum(case when p.name = w.winner then 1 else 0 end) as wins,
-         max(r.score) as max_score,
-         min(r.score) as min_score,
-         avg(r.score) as avg_score
-    from players p
-    join results r on p.name = r.player_name
-    join winners w on r.match_id = w.match_id
-group by p.name;
+    select p.name as name,
+           sum(case when (p.name = w.winner) then 1 else 0 end) as wins,
+           max(r.score) as max_score,
+           min(r.score) as min_score,
+           avg(r.score) as avg_score,
+           (select count(0) from scores s where s.player_name = p.name and s.bonus > 0) as sevens,
+           sum(r.score) as total_points
+      from players p join results r on p.name = r.player_name
+      join winners w on r.match_id = w.match_id
+  group by p.name;
