@@ -167,13 +167,13 @@ SQL;
 
 $results = iterator_to_array(query($queries[$_GET['option'] ?? 'scores']));
 
-if ($min = $_GET['min']) {
+if ($min = ($_GET['min'] ?? 0)) {
     $results = array_filter($results, function ($row) use ($min) {
         return $row['match_id'] >= $min;
     });
 }
 
-if ($max = $_GET['max']) {
+if ($max = ($_GET['max'] ?? 0)) {
     $results = array_filter($results, function ($row) use ($max) {
         return $row['match_id'] <= $max;
     });
