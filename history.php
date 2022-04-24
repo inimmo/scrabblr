@@ -36,7 +36,7 @@ select * from (
     from results r
     join results r_old
       on r_old.match_id <= r.match_id
-     and r_old.match_id >= r.match_id - {$roll}
+     and r_old.match_id > r.match_id - {$roll}
      and r_old.player_name = r.player_name
 group by 1, 2
 union
@@ -44,7 +44,7 @@ union
     from results r
     join results r_old
       on r_old.match_id <= r.match_id
-     and r_old.match_id >= r.match_id - {$roll}
+     and r_old.match_id > r.match_id - {$roll}
 group by r.match_id
 ) tbl order by 1, 2
 SQL;
