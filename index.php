@@ -194,6 +194,7 @@ foreach ($crossTab as $row) {
                 <li><a href="./history/?option=scores">All scores</a>
                 <li><a href="./history/?option=average">Average score</a>
                 <li><a href="./history/?option=rolling">Ten game rolling average</a>
+                <li><a href="./history/?option=set_averages">Set averages</a>
                 <li><a href="./history/?option=best_turns">Best turns</a>
                 <li><a href="./history/?option=turns">Average score per turns</a>
                 <li>

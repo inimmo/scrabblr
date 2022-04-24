@@ -12,6 +12,22 @@ select 'average', match_id, avg(score)
 group by match_id
 SQL;
 
+$queries['set_averages'] = <<<SQL
+  select `set` as match_id,
+         player_name,
+         avg(score) as score
+    from results r
+    join matches m on r.match_id = m.id
+group by m.`set`, player_name
+union
+  select `set` as match_id,
+         'average' as player_name,
+         avg(score) as score
+    from results r
+    join matches m on r.match_id = m.id
+group by m.`set`
+SQL;
+
 $queries['average'] = <<<SQL
 select * from (
   select r.player_name, r.match_id, avg(r_old.score) as score
