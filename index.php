@@ -2,7 +2,7 @@
 require_once __DIR__ . '/autoload.php';
 
 $matches = query('Select id, match_date From matches');
-$totals = query('Select name, wins, max_score, min_score, avg_score, sevens from summary Order by name');
+$totals = query('Select name, wins, max_score, min_score, avg_score, sevens, total_points from summary Order by name');
 $crossTab = query('select first_player, winner, count(*) as count from matches m join winners w on m.id = w.match_id group by 1, 2');
 $sets = query(<<<SQL
   select `set`,
@@ -112,6 +112,7 @@ foreach ($crossTab as $row) {
             <th>Lowest</th>
             <th>Average</th>
             <th>Sevens</th>
+            <th>Total Points</th>
         </tr>
         <?php foreach ($totals as $total): ?>
         <tr>
@@ -121,6 +122,7 @@ foreach ($crossTab as $row) {
             <td><?= $total['min_score']; ?></td>
             <td><?= sprintf('%.2f', $total['avg_score']); ?></td>
             <td><?= $total['sevens']; ?></td>
+            <td><?= $total['total_points']; ?></td>
         </tr>
         <?php endforeach; ?>
     </table>
