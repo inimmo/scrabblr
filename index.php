@@ -1,4 +1,4 @@
-<?php
+<?Php check your WhatsApp or emails for the love of god
 require_once __DIR__ . '/autoload.php';
 
 $matches = query('Select id, match_date From matches');
